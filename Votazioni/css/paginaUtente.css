@@ -1,0 +1,31 @@
+body
+	{
+    font-family: 'Playfair Display', serif;
+    }
+
+h1 
+	{
+  	color: red;
+    margin-top: 4%;
+	}
+
+    
+.back
+	{
+	background: linear-gradient(315deg, #52a7c1 0%, #b3f6d8 74%); 
+    }
+
+nav
+	{
+    border-radius: 5px;
+    }
+
+.amministratore
+	{
+    display: none;
+    }
+
+.utente
+	{
+    display: block;
+    }
