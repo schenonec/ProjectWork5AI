@@ -52,7 +52,7 @@
         mysqli_query($db, "UPDATE Utente 
                                  SET CF='$CF', nome = '$nome', cognome = '$cognome', password = '$password', email = '$email'
                                  WHERE codice='$codice' ");
-        header("Location:accedi.php");
+        header("Location:accesso.php");
         echo "<script type='text/javascript'>alert('Registrazione avvenuta con successo');</script>";
         }
        else
@@ -60,4 +60,4 @@
       }
     ?>
   </body>
-</html>
+</html>
