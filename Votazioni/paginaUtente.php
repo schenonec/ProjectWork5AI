@@ -74,6 +74,8 @@
         	  ?><script>hidShow('none', 'block');</script><?php
               }			
             }
+	   else
+            header("Location:accesso.php");
     ?>                    
   </body>
 </html>
