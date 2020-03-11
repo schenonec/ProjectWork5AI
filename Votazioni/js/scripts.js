@@ -7,6 +7,13 @@ function hidShow(admin, user) {
         utente[i].style.display = user;
 }
 
+function showLink(class_, id) {
+    var hide = document.getElementsByClassName(class_);
+    for (var i = 0; i < hide.length; i++)
+        hide[i].style.display = "none";
+    document.getElementById(id).style.display = "block";
+}
+
 function openForm() {
     document.getElementById("myForm").style.display = "block";
 }

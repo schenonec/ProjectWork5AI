@@ -3,8 +3,8 @@
 ?>
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>ProjectWork5AI</title>
+  	<meta charset="utf-8">
+    <title>Sito votazioni</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -28,12 +28,12 @@
               Votazioni
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Votazioni disponibili</a>
-              <a class="dropdown-item" href="#">Votazioni concluse</a>
-              <a class="dropdown-item" href="#">Votazioni in corso</a>
+              <a class="dropdown-item" href="#" onclick="showLink('links','availableVot')">Votazioni disponibili</a>
+              <a class="dropdown-item" href="#" onclick="showLink('links','endedVot')">Votazioni concluse</a>
+              <a class="dropdown-item" href="#" onclick="showLink('links','currentVot')">Votazioni in corso</a>
               <div class="utente">
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Vuoi proporre una votazione?</a>
+                  <a class="dropdown-item" href="#" onclick="showLink('links','proposeVot')">Vuoi proporre una votazione?</a>
               </div>
               <div class="amministratore">
               	<div class="dropdown-divider"></div>
@@ -47,6 +47,11 @@
         </ul>
       </div>
     </nav>
+    <br><br><br>
+    <p class="links" id="proposeVot">Ora propongo una votazione eh!</p>
+    <p class="links" id="availableVot">Votazioni disponibili</p>
+    <p class="links" id="endedVot">Votazioni concluse</p>
+    <p class="links" id="currentVot">Votazioni in corso</p>
     <?php
     	if(isset($_SESSION["credenziali"]))
         	{
@@ -74,8 +79,6 @@
         	  ?><script>hidShow('none', 'block');</script><?php
               }			
             }
-	   else
-            header("Location:accesso.php");
     ?>                    
   </body>
-</html>
+</html>

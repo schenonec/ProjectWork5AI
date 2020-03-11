@@ -1,7 +1,5 @@
 <?php
-  $db= mysqli_connect("localhost", "username", "password");
-  if($db) 
-  	mysqli_select_db($db, "my_projectwork5ai");
-   else
+  $db= mysqli_connect("localhost", "root", "", "my_projectwork5ai");
+  if(!$db)
   	die("Connection failed: " . mysqli_connect_error());
 ?>

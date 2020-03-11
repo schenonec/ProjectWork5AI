@@ -1,10 +1,10 @@
-<?php
+php
 	session_start();
 ?>
 <html>
   <head>
   	<meta charset="utf-8">
-    <title>ProjectWork5AI</title>
+    <title>Accesso</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -71,7 +71,7 @@
         $CF=$_POST['CF'];
         $table=mysqli_query($db, "SELECT email
                                   FROM Utente
-                                  WHERE CF='$CF'"); 
+                                  WHERE CF='$CF'");  
         $row = mysqli_fetch_array($table, MYSQLI_ASSOC); 
         if($row!==NULL)
           {
@@ -81,7 +81,10 @@
           $headers='From: ProjectWork5AInoreply @ company . com';
           mail($to_email,$subject,$message,$headers);
           $_SESSION["CF"]=$CF;
+          echo "<script type='text/javascript'>alert('Email inviata con successo');</script>"; 
           }
+         else
+           echo "<script type='text/javascript'>alert('Il CF inserito non risulta associato a nessun account');</script>"; 
         }
     ?>
   </body>
