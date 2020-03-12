@@ -1,4 +1,4 @@
-php
+<?php
 	session_start();
 ?>
 <html>
@@ -52,7 +52,7 @@ php
     	{
         require_once("commonFunctions.php");
       	$CF=$_POST['CF'];
-        $password=md5($_POST['password']);
+        $password=hash("sha512", $_POST['password']);
         $checkTable=mysqli_query($db, "SELECT *
                                        FROM Utente
                                        WHERE CF='$CF' AND password='$password'");
@@ -77,7 +77,7 @@ php
           {
           $to_email=$row['email'];
           $subject='Richiesta di modifica password';
-          $message='Cliccare sul link che segue per modificare la password: https://projectwork5ai.altervista.org/votazioni/accesso/dimenticatoPasswd.php';
+          $message='Cliccare sul link che segue per modificare la password: https://projectwork5ai.altervista.org/votazioni/dimenticatoPasswd.php';
           $headers='From: ProjectWork5AInoreply @ company . com';
           mail($to_email,$subject,$message,$headers);
           $_SESSION["CF"]=$CF;

@@ -42,7 +42,7 @@
       $CF=$_POST['CF'];
       $nome=$_POST['nome'];
       $cognome=$_POST['cognome'];
-      $password=md5($_POST['password']);
+      $password=hash("sha512", $_POST['password']);
       $email=$_POST['email'];
       $codice=$_POST['codice'];
       $table=mysqli_query($db, "SELECT * FROM Utente WHERE codice='$codice' AND nome IS NULL");
@@ -52,7 +52,7 @@
         mysqli_query($db, "UPDATE Utente 
                                  SET CF='$CF', nome = '$nome', cognome = '$cognome', password = '$password', email = '$email'
                                  WHERE codice='$codice' ");
-        header("Location:accedi.php");
+        header("Location:accesso.php");
         echo "<script type='text/javascript'>alert('Registrazione avvenuta con successo');</script>";
         }
        else

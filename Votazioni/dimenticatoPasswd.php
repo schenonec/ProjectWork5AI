@@ -38,7 +38,7 @@
     	{
         require_once("commonFunctions.php");
       	$CF=$_SESSION['CF'];
-      	$password=md5($_POST['password']);
+      	$password=hash("sha512", $_POST['password']);
       	mysqli_query($db, "UPDATE Utente
           		 		   SET password='$password'
                            WHERE CF='$CF'"); 
