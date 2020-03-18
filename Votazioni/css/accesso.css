@@ -13,37 +13,7 @@ body
 div
 	{
     text-align: left;
-    }    
-
-h1
-	{
-    color:red;
-    text-align: center;
-    margin-bottom: 15%;
-    }
-
-.exactCenter 
-	  {
-      max-width: 15%;
-      position: fixed;
-      top: 25%;
-      left: 50%;
-	  margin-top: -100px;	
-      margin-left: -100px;
-      }
-    
-label
-	{
-    text-align: left;
-    }
-    
-input
-	{
-    border-radius:5px;
-    margin-bottom: 5%;
-    }
-     
-     
+    }  
      
      
 {box-sizing: border-box;}
@@ -114,5 +84,21 @@ input
 /* Add some hover effects to buttons */
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
-}  
+}
 
+@media (min-width: 1000px) {
+    .exactCenter {
+        max-width: 15%;
+        position: fixed;
+        top: 25%;
+        left: 50%;
+        margin-top: -5vw;
+        margin-left: -5vw;
+    }
+}
+
+@media (max-width: 1000px) {
+    .exactCenter {
+        margin-top: 15vw;
+    }
+}

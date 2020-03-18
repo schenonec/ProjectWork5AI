@@ -12,6 +12,7 @@
     <script type="text/javascript" src="/votazioni/js/scripts.js"></script>
     <link rel="stylesheet" type="text/css" href="css/accesso.css"/>
   </head>
+
   <body class="container-fluid back">
   	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
       <a class="navbar-brand" href="#">Sito votazioni</a>
@@ -26,19 +27,27 @@
         </ul>
       </div>
     </nav>
+
     <div class="text-center exactCenter">
-      <h1 class="col-sm">Accesso</h1> 	
       <form method="POST" action="#">
-          <span class="row"><label class="col-xl-4">CF:</label><input class="col-xl" type="text" name="CF" required></span><br>
-          <span class="row"><label class="col-xl-4">Password:</label><input class="col-xl" type="password" name="password" required></span><br>
+          <div class="form-group">
+              <label for="C.F.">C.F.:</label>
+              <input type="text" class="form-control" id="C.F." name="CF" required>
+            </div>
+            <div class="form-group">
+              <label for="pwd">Password:</label>
+              <input type="password" class="form-control" id="pwd" name="password" required>
+            </div>
           <input class="btn btn-info" type="submit" name="accedi" value="Accedi">
       </form>
       <a class="openForm" href="#" onclick="openForm()">Hai dimenticato la password?</a>
       <div class="form-popup" id="myForm">
         <form action="#" method="POST" class="form-container">
           <p>Inserisci il tuo CF e ti verrá inviata un'email all'indirizzo di posta elettronica registrato</p>
-          <label for="CF"><b>CF</b></label>
-          <input type="text" placeholder="Inserisci il CF" name="CF" required>
+          <div class="form-group">
+              <label for="C.F.">C.F.:</label>
+              <input type="text" class="form-control" id="C.F." name="CF" placeholder="Inserisci il CF" required>
+          </div>
           <button type="submit" name="inviaEmail" class="btn">Invia</button>
           <button type="submit" class="btn cancel" onclick="closeForm()">Chiudi</button>
         </form>
@@ -46,7 +55,8 @@
       <p>
       	Ti devi ancora registrare? <a href="registrazione.php">Clicca qui!</a>
       </p>
-     </div>
+    </div>
+
     <?php
     if(isset($_POST["accedi"]))
     	{

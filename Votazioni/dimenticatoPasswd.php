@@ -11,6 +11,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="css/accesso.css"/>
   </head>
+
   <body class="container-fluid back">
   	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
       <a class="navbar-brand" href="#">Sito votazioni</a>
@@ -25,6 +26,7 @@
         </ul>
       </div>
     </nav>
+
     <div class="text-center exactCenter">
       <h1 class="col-sm">Modifica la tua password:</h1> 	
       <form method="POST" action="#">
@@ -33,6 +35,7 @@
           <input class="btn btn-info" type="submit" name="cambiaPassword" value="Cambia Password">
       </form>
      </div> 
+
     <?php
     if(isset($_POST["cambiaPassword"]))
     	{

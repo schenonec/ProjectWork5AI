@@ -8,6 +8,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="css/registrazione.css"/>
   </head>
+
   <body class="container-fluid back">
   	<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
       <a class="navbar-brand" href="#">Sito votazioni</a>
@@ -21,20 +22,39 @@
           </li>
         </ul>
       </div>
+
     </nav>
-    <div class="text-center exactCenter">
-      <h1 class="col-sm">Registrazione</h1>	
-      <form method="POST" action="#">	  
-          <span class="row"><label class="col-xl-4">Nome:</label><br><input class="col-xl-8" type="text" name="nome" required><br></span>
-          <span class="row"><label class="col-xl-4">Cognome:</label><br><input class="col-xl-8" type="text" name="cognome" required><br></span>
-          <span class="row"><label class="col-xl-4">C.F.:</label><br><input class="col-xl-8" type="text" name="CF" required><br></span>
-          <span class="row"><label class="col-xl-4">Email:</label><br><input class="col-xl-8" type="text" name="email" required><br></span>
-          <span class="row"><label class="col-xl-4">Password:</label><br><input class="col-xl-8" type="password" name="password" required><br></span>
-          <span class="row"><label class="col-xl-4">Codice:</label><br><input class="col-xl-8" type="password" name="codice" required><br></span>
-          <input class="btn btn-info" type="submit" name="registrati" value="Registrati"><br>
-       </form>
+     <div class="text-center exactCenter">
+        <form method="POST" action="#">
+            <div class="form-group">
+              <label for="Nome">Nome:</label>
+              <input type="text" class="form-control" id="Nome" name="nome" required>
+            </div>
+            <div class="form-group">
+              <label for="Cognome">Cognome:</label>
+              <input type="text" class="form-control" id="Cognome" name="cognome" required>
+            </div>
+            <div class="form-group">
+              <label for="C.F.">C.F.:</label>
+              <input type="text" class="form-control" id="C.F." name="CF" required>
+            </div>
+            <div class="form-group">
+              <label for="Email">Email:</label>
+              <input type="email" class="form-control" id="Email" name="email" placeholder="nome@esempio.com" required>
+            </div>
+             <div class="form-group">
+              <label for="pwd">Password:</label>
+              <input type="password" class="form-control" id="pwd" name="password" required>
+            </div>
+            <div class="form-group">
+              <label for="Codice">Codice:</label>
+              <input type="text" class="form-control" id="Codice" name="codice" required>
+            </div>
+            <input class="btn btn-info" type="submit" name="registrati" value="Registrati">
+        </form>
        <p>Ti sei giá registrato? <a href="accesso.php">Clicca qui!</a></p>
     </div>
+
     <?php
     if(isset($_POST["registrati"]))
       {
