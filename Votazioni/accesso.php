@@ -9,7 +9,9 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/votazioni/js/scripts.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
+    <script type="text/javascript" src="js/jqueries.js"></script>  
     <link rel="stylesheet" type="text/css" href="css/accesso.css"/>
   </head>
 
@@ -40,7 +42,7 @@
             </div>
           <input class="btn btn-info" type="submit" name="accedi" value="Accedi">
       </form>
-      <a class="openForm" href="#" onclick="openForm()">Hai dimenticato la password?</a>
+      <a id="openInvite" href="#">Hai dimenticato la password?</a>
       <div class="form-popup" id="myForm">
         <form action="#" method="POST" class="form-container">
           <p>Inserisci il tuo CF e ti verrá inviata un'email all'indirizzo di posta elettronica registrato</p>
@@ -49,7 +51,7 @@
               <input type="text" class="form-control" id="C.F." name="CF" placeholder="Inserisci il CF" required>
           </div>
           <button type="submit" name="inviaEmail" class="btn">Invia</button>
-          <button type="submit" class="btn cancel" onclick="closeForm()">Chiudi</button>
+          <button type="submit" id="closeInvite" class="btn cancel">Chiudi</button>
         </form>
       </div>
       <p>

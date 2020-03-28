@@ -34,3 +34,53 @@ nav
     {
     display: none;
     }
+
+textarea
+    {
+    resize: none;
+    }
+
+td>form 
+    {
+    margin-top: 5%;
+    }
+
+.searchInput {
+    background-image: url('searchicon.png'); /* Aggiunge l'icona della lente d'ingrandimento al campo di input */
+    background-position: 10px 5px; /* Posiziona l'icona */
+    background-repeat: no-repeat; /* Fa sí che l'immagine non si ripeta */
+    width: 100%;
+    font-size: 16px; 
+    padding: 12px 20px 12px 40px; 
+    border: 1px solid #ddd; 
+    margin-bottom: 10px; 
+}
+
+.votTable
+    {
+    border-collapse: collapse; 
+    width: 100%; 
+    border: 1px solid #ddd; 
+    font-size: 18px; 
+    }
+
+.votTable th, .votTable td 
+    {
+    text-align: left;
+    padding: 12px;
+    }
+
+.votTable tr 
+    {
+    border-bottom: 1px solid #ddd;
+    }
+
+.votTable tr.header, .votTable tr:hover
+    {
+    background-color: #f1f1f1;
+    }
+
+th  
+    {
+    cursor: pointer;
+    }
