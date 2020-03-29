@@ -47,13 +47,54 @@
             </div>
           </li>
           <li class="nav-item active amministratore">
-            <a class="nav-link" href="#">Utenti</a>
+            <a class="nav-link" href="#" onclick="showLink('links','showUser')">Utenti</a>
           </li>
         </ul>
       </div>
     </nav>
     <br><br><br>
 
+    <div class="links" id="showUser">
+      <?php 
+      require_once("commonFunctions.php");
+        $queryUtente=mysqli_query($db, "SELECT nome, cognome, email 
+                                        FROM Utente");
+        
+        if($queryUtente)
+          {?>
+          <table class="table table-striped table-dark votTable">
+            <tr>
+              <th onclick="sortTable(0,0)">Nome<img src="css/arrows.png"></th>
+              <th onclick="sortTable(1,0)">Cognome<img src="css/arrows.png"></th>
+              <th onclick="sortTable(2,0)">Email<img src="css/arrows.png"></th>
+            </tr>
+          <?php
+            for($row=mysqli_fetch_array(($queryUtente), MYSQLI_ASSOC);$row!=null;$row=mysqli_fetch_assoc($queryUtente))
+              {
+              ?>
+              <tr>
+                <td>
+                <?php echo $row["nome"];?>
+                </td>
+                <td>
+                <?php echo $row["cognome"];?>
+                </td>
+                <td>
+                <?php echo $row["email"];?>
+                </td>
+              </tr>
+              <?php
+              }
+              ?>
+          </table>
+        <?php
+          }
+         else
+          echo "no";
+        ?>
+
+
+    </div> 
     <!--Form che permette di inserire i dati relativi alla creazione di una votazione-->
     <div class="links text-center exactCenter" id="createVot">
         <form method="POST" action="#">
