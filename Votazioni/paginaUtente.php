@@ -54,47 +54,6 @@
     </nav>
     <br><br><br>
 
-    <div class="links" id="showUser">
-      <?php 
-      require_once("commonFunctions.php");
-        $queryUtente=mysqli_query($db, "SELECT nome, cognome, email 
-                                        FROM Utente");
-        
-        if($queryUtente)
-          {?>
-          <table class="table table-striped table-dark votTable">
-            <tr>
-              <th onclick="sortTable(0,0)">Nome<img src="css/arrows.png"></th>
-              <th onclick="sortTable(1,0)">Cognome<img src="css/arrows.png"></th>
-              <th onclick="sortTable(2,0)">Email<img src="css/arrows.png"></th>
-            </tr>
-          <?php
-            for($row=mysqli_fetch_array(($queryUtente), MYSQLI_ASSOC);$row!=null;$row=mysqli_fetch_assoc($queryUtente))
-              {
-              ?>
-              <tr>
-                <td>
-                <?php echo $row["nome"];?>
-                </td>
-                <td>
-                <?php echo $row["cognome"];?>
-                </td>
-                <td>
-                <?php echo $row["email"];?>
-                </td>
-              </tr>
-              <?php
-              }
-              ?>
-          </table>
-        <?php
-          }
-         else
-          echo "no";
-        ?>
-
-
-    </div> 
     <!--Form che permette di inserire i dati relativi alla creazione di una votazione-->
     <div class="links text-center exactCenter" id="createVot">
         <form method="POST" action="#">
@@ -144,44 +103,53 @@
     <!--WORK IN PROGRESS-->
     <div class="links" id="availableVot">
         <input type="text" class="form-control searchInput" onkeyup="myFunction(0)" placeholder="Search for names..">
-        <div style="overflow-x:auto;">
-            <table class="table-info votTable">
-              <tr class="header">
-                    <th onclick="sortTable(0,0)">Titolo <img src="css/arrows.png"></th>
-                    <th onclick="sortTable(1,0)">Scadenza <img src="css/arrows.png"></th>
-                    <th onclick="sortTable(2,0)">Percentuale minima <img src="css/arrows.png"></th>
-                    <th>Partecipa</th>
-              </tr>
-              <tr>
-              <?php
-              require_once("commonFunctions.php");
-              $dateTime=date('Y-m-d H:i:s', time());
-              $table=mysqli_query($db, "SELECT *
-                            		    FROM quesito
-                                        WHERE scadenza>'$dateTime'");
-              if($table)
-                {
-                $row=mysqli_fetch_assoc($table);
-                for(;$row!=null;$row=mysqli_fetch_assoc($table))
-                    {
-                    echo "<td>".$row["titolo"]."</td>";
-                    echo "<td>".$row["scadenza"]."</td>";
-                    echo "<td>".$row["percMinima"]."</td>";
-                    ?>
-                    <td>
-                        <form class="prova" method="POST" action="#"><!--action="votazione.php"-->
-                            <input type="hidden" name="choosenQ" value="<?php echo $row['testoQ']; ?>"/>
-                            <input class="btn btn-success" type="submit" name="partecipa" value="Partecipa"/>
-                        </form>
-                    </td>
-                    </tr><?php
-                    }
-                }
-               else
-                echo "Non sono disponibili nuove votazioni";
-                 ?>
-            </table>
-        </div>
+        <?php
+          require_once("commonFunctions.php");
+          $dateTime=date('Y-m-d H:i:s', time());
+          $table=mysqli_query($db, "SELECT *
+                            	    FROM quesito
+                                    WHERE scadenza>'$dateTime'");
+          if($table!==NULL)
+            {?>
+            <div style="overflow-x:auto;">
+                <table class="table-info votTable">
+                  <tr class="header">
+                        <th onclick="sortTable(0,0)">Titolo <img src="css/arrows.png"></th>
+                        <th onclick="sortTable(1,0)">Scadenza <img src="css/arrows.png"></th>
+                        <th onclick="sortTable(2,0)">Percentuale minima <img src="css/arrows.png"></th>
+                        <th>Partecipa</th>
+                  </tr>
+                  <?php
+                  for($row=mysqli_fetch_assoc($table);$row!=null;$row=mysqli_fetch_assoc($table))
+                        {
+                        ?>
+                        <tr>
+                            <td>
+                                <?php echo $row["titolo"];?>
+                            </td>
+                            <td>
+                                <?php echo $row["scadenza"];?>
+                            </td>
+                            <td>
+                                <?php echo $row["percMinima"];?>
+                            </td>
+                            <td>
+                                <form class="prova" method="POST" action="#"><!--action="votazione.php"-->
+                                    <input type="hidden" name="choosenQ" value="<?php echo $row['testoQ']; ?>"/>
+                                    <input class="btn btn-success" type="submit" name="partecipa" value="Partecipa"/>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php
+                        }
+                  ?>
+                </table>
+            </div>
+            <?php
+            }
+           else
+            echo "Non sono disponibili nuove votazioni";
+            ?>
     </div>
 
     <p class="links" id="proposeVot">Ora propongo una votazione eh!</p>
@@ -255,7 +223,51 @@
             <button type="submit" id="closeInvite" class="btn cancel">Chiudi</button>
         </form>
     </div>    
-      
+    
+    <!--Parte in cui viene creata la tabella con gli utenti-->
+    <div class="links" id="showUser">
+      <input type="text" class="form-control searchInput" onkeyup="myFunction(2)" placeholder="Cerca l'utente che ti interessa">
+      <?php 
+        require_once("commonFunctions.php");
+        $queryUtente=mysqli_query($db, "SELECT nome, cognome, email 
+                                        FROM Utente");
+        
+        if($queryUtente)
+            {?>
+            <div style="overflow-x:auto;">
+                <table class="table-info votTable">
+                    <tr class="header">
+                        <th onclick="sortTable(0,2)">Nome<img src="css/arrows.png"></th>
+                        <th onclick="sortTable(1,2)">Cognome<img src="css/arrows.png"></th>
+                        <th onclick="sortTable(2,2)">Email<img src="css/arrows.png"></th>
+                    </tr>
+                    <?php
+                    for($row=mysqli_fetch_array(($queryUtente), MYSQLI_ASSOC);$row!=null;$row=mysqli_fetch_assoc($queryUtente))
+                        {
+                        ?>
+                        <tr>
+                        <td>
+                            <?php echo $row["nome"];?>
+                        </td>
+                        <td>
+                            <?php echo $row["cognome"];?>
+                        </td>
+                        <td>
+                            <?php echo $row["email"];?>
+                        </td>
+                        </tr>
+                        <?php
+                        }
+                        ?>
+                </table>
+            </div>
+            <?php
+            }
+           else
+            echo "no";
+        ?>
+    </div>   
+
     <?php
         require_once("commonFunctions.php");
 
