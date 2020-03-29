@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 18, 2020 alle 18:37
+-- Creato il: Mar 29, 2020 alle 16:18
 -- Versione del server: 10.4.11-MariaDB
 -- Versione PHP: 7.4.3
 
@@ -55,7 +55,11 @@ CREATE TABLE `crea` (
 --
 
 INSERT INTO `crea` (`codice`, `testoQ`) VALUES
-('s31sc3m0', 'quanti ....?');
+('s31sc3m0', 'Prova'),
+('s31sc3m0', 'Prova2'),
+('s31sc3m0', 'Prova3'),
+('s31sc3m0', 'Prova4'),
+('s31sc3m0', 'Prova5');
 
 -- --------------------------------------------------------
 
@@ -88,12 +92,24 @@ CREATE TABLE `propone` (
 
 CREATE TABLE `quesito` (
   `testoQ` varchar(500) NOT NULL,
-  `data` date NOT NULL,
+  `titolo` varchar(50) NOT NULL,
+  `scadenza` datetime NOT NULL,
   `percMinima` float NOT NULL,
   `stato` tinyint(1) NOT NULL,
   `astensione` tinyint(1) NOT NULL,
   `votoChiaro` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `quesito`
+--
+
+INSERT INTO `quesito` (`testoQ`, `titolo`, `scadenza`, `percMinima`, `stato`, `astensione`, `votoChiaro`) VALUES
+('Prova', 'Prova1', '2020-03-20 00:58:00', 25, 1, 0, 1),
+('Prova2', 'Prova2', '2020-03-26 03:56:00', 15, 1, 1, 1),
+('Prova3', 'Prova3', '2020-03-27 21:12:00', 65, 1, 1, 1),
+('Prova4', 'Prova4', '2020-04-01 23:59:00', 75, 1, 1, 1),
+('Prova5', 'Prova5', '2020-04-05 15:58:00', 5, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -112,9 +128,15 @@ CREATE TABLE `risposta` (
 --
 
 INSERT INTO `risposta` (`testoR`, `voti favorevoli`, `testoQ`) VALUES
-('9', 0, 'quanti ....?'),
-('2', 0, 'quanti ....?'),
-('8', 0, 'quanti ....?');
+('Prova2', 0, 'Prova5'),
+('Prova1', 0, 'Prova5'),
+('Prova', 0, 'Prova4'),
+('prova3', 0, 'Prova3'),
+('prova1', 0, 'Prova'),
+('ptova2', 0, 'Prova'),
+('prova1', 0, 'Prova3'),
+('prova2', 0, 'Prova3'),
+('prova1', 0, 'Prova2');
 
 -- --------------------------------------------------------
 
