@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Mar 28, 2020 alle 20:25
+-- Creato il: Apr 02, 2020 alle 09:54
 -- Versione del server: 10.4.11-MariaDB
 -- Versione PHP: 7.4.3
 
@@ -55,9 +55,14 @@ CREATE TABLE `crea` (
 --
 
 INSERT INTO `crea` (`codice`, `testoQ`) VALUES
-('s31sc3m0', 'Prova'),
-('s31sc3m0', 'Prova2'),
-('s31sc3m0', 'Prova3');
+('s31sc3m0', 'testo1'),
+('s31sc3m0', 'testo2'),
+('s31sc3m0', 'testo3'),
+('s31sc3m0', 'testo4'),
+('s31sc3m0', 'testo5'),
+('s31sc3m0', 'testo6'),
+('s31sc3m0', 'testo7'),
+('s31sc3m0', 'Testo8');
 
 -- --------------------------------------------------------
 
@@ -70,6 +75,17 @@ CREATE TABLE `partecipa` (
   `testoQ` varchar(500) NOT NULL,
   `presente` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `partecipa`
+--
+
+INSERT INTO `partecipa` (`codice`, `testoQ`, `presente`) VALUES
+('c1p0LL1n0', 'Testo8', 1),
+('GIp8m3sUnT', 'Testo8', 0),
+('m1p14c3l4', 'Testo8', 0),
+('s31sc3m0', 'Testo8', 1),
+('SoIQmACWtj', 'Testo8', 0);
 
 -- --------------------------------------------------------
 
@@ -103,9 +119,14 @@ CREATE TABLE `quesito` (
 --
 
 INSERT INTO `quesito` (`testoQ`, `titolo`, `scadenza`, `percMinima`, `stato`, `astensione`, `votoChiaro`) VALUES
-('Prova', 'Prova1', '2020-03-20 00:58:00', 25, 1, 0, 1),
-('Prova2', 'Prova2', '2020-03-26 03:56:00', 15, 1, 1, 1),
-('Prova3', 'Prova3', '2020-03-27 21:12:00', 65, 1, 1, 1);
+('testo1', 'titolo1', '2020-03-20 00:58:00', 25, 1, 0, 1),
+('testo2', 'titolo2', '2020-03-26 03:56:00', 15, 1, 1, 1),
+('testo3', 'titolo3', '2020-03-27 21:12:00', 65, 1, 1, 1),
+('testo4', 'titolo4', '2020-04-01 23:59:00', 75, 1, 1, 1),
+('testo5', 'titolo5', '2020-04-05 15:58:00', 5, 1, 1, 0),
+('testo6', 'titolo6', '2020-04-05 14:00:00', 10, 1, 1, 1),
+('testo7', 'titolo7', '2020-04-05 22:00:00', 5, 1, 1, 0),
+('Testo8', 'Titolo8', '2020-03-25 23:01:00', 5, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -115,7 +136,7 @@ INSERT INTO `quesito` (`testoQ`, `titolo`, `scadenza`, `percMinima`, `stato`, `a
 
 CREATE TABLE `risposta` (
   `testoR` varchar(50) NOT NULL,
-  `voti favorevoli` int(50) NOT NULL,
+  `votiFavorevoli` int(50) NOT NULL,
   `testoQ` varchar(500) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
@@ -123,13 +144,24 @@ CREATE TABLE `risposta` (
 -- Dump dei dati per la tabella `risposta`
 --
 
-INSERT INTO `risposta` (`testoR`, `voti favorevoli`, `testoQ`) VALUES
-('prova3', 0, 'Prova3'),
-('prova1', 0, 'Prova'),
-('ptova2', 0, 'Prova'),
-('prova1', 0, 'Prova3'),
-('prova2', 0, 'Prova3'),
-('prova1', 0, 'Prova2');
+INSERT INTO `risposta` (`testoR`, `votiFavorevoli`, `testoQ`) VALUES
+('opzione8.2', 1, 'Testo8'),
+('opzione7.2', 0, 'Testo7'),
+('opzione8.1', 1, 'Testo8'),
+('opzione7.1', 0, 'Testo7'),
+('opzione6.1', 0, 'Testo6'),
+('opzione6.2', 5, 'Testo6'),
+('opzione6.3', 0, 'Testo6'),
+('opzione6.4', 0, 'Testo6'),
+('opzione5.1', 0, 'Testo5'),
+('opzione5.2', 0, 'Testo5'),
+('opzione4.1', 0, 'Testo4'),
+('opzione3.1', 0, 'Testo3'),
+('opzione1.1', 5, 'Testo1'),
+('opzione1.2', 10, 'Testo1'),
+('opzione3.2', 2, 'Testo3'),
+('opzione3.3', 4, 'Testo3'),
+('opzione2.1', 0, 'Testo2');
 
 -- --------------------------------------------------------
 
@@ -167,8 +199,17 @@ INSERT INTO `utente` (`CF`, `nome`, `cognome`, `password`, `email`, `cancellato`
 CREATE TABLE `vota` (
   `codice` varchar(10) NOT NULL,
   `testoR` varchar(50) NOT NULL,
-  `astensione` tinyint(1) NOT NULL
+  `astenuto` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `vota`
+--
+
+INSERT INTO `vota` (`codice`, `testoR`, `astenuto`) VALUES
+('s31sc3m0', 'opzione8.2', 0),
+('s31sc3m0', 'opzione6.2', 0),
+('c1p0LL1n0', 'opzione8.1', 0);
 
 --
 -- Indici per le tabelle scaricate

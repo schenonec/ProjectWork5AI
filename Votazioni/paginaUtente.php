@@ -56,7 +56,7 @@
 
     <!--Form che permette di inserire i dati relativi alla creazione di una votazione-->
     <div class="links text-center exactCenter" id="createVot">
-        <form method="POST" action="#">
+        <form method="POST" action="paginaUtentePHP.php">
             <div class="form-group">
               <label for="Titolo">Titolo:</label>
               <input type="text" class="form-control" id="Titolo" name="titolo" required>
@@ -106,43 +106,47 @@
         <?php
           require_once("commonFunctions.php");
           $dateTime=date('Y-m-d H:i:s', time());
-          $table=mysqli_query($db, "SELECT *
-                            	    FROM quesito
-                                    WHERE scadenza>'$dateTime'");
-          if($table!==NULL)
+          $votazioniT=mysqli_query($db, "SELECT *
+                            	         FROM quesito
+                                         WHERE scadenza>'$dateTime'");
+          if($votazioniT!==NULL)
             {?>
             <div style="overflow-x:auto;">
                 <table class="table-info votTable">
-                  <tr class="header">
-                        <th onclick="sortTable(0,0)">Titolo <img src="css/arrows.png"></th>
-                        <th onclick="sortTable(1,0)">Scadenza <img src="css/arrows.png"></th>
-                        <th onclick="sortTable(2,0)">Percentuale minima <img src="css/arrows.png"></th>
-                        <th>Partecipa</th>
-                  </tr>
-                  <?php
-                  for($row=mysqli_fetch_assoc($table);$row!=null;$row=mysqli_fetch_assoc($table))
-                        {
-                        ?>
-                        <tr>
-                            <td>
-                                <?php echo $row["titolo"];?>
-                            </td>
-                            <td>
-                                <?php echo $row["scadenza"];?>
-                            </td>
-                            <td>
-                                <?php echo $row["percMinima"];?>
-                            </td>
-                            <td>
-                                <form class="prova" method="POST" action="#"><!--action="votazione.php"-->
-                                    <input type="hidden" name="choosenQ" value="<?php echo $row['testoQ']; ?>"/>
-                                    <input class="btn btn-success" type="submit" name="partecipa" value="Partecipa"/>
-                                </form>
-                            </td>
-                        </tr>
-                        <?php
-                        }
-                  ?>
+                    <thead>
+                      <tr class="header">
+                            <th onclick="sortTable(0,0)">Titolo <img src="css/arrows.png"></th>
+                            <th onclick="sortTable(1,0)">Scadenza <img src="css/arrows.png"></th>
+                            <th onclick="sortTable(2,0)">Percentuale minima <img src="css/arrows.png"></th>
+                            <th>Partecipa</th>
+                      </tr>
+                    </thead>
+                    <tbody class="searchTable">
+                      <?php
+                      for($votazioniR=mysqli_fetch_assoc($votazioniT);$votazioniR!=null;$votazioniR=mysqli_fetch_assoc($votazioniT))
+                            {
+                            ?>
+                            <tr>
+                                <td>
+                                    <?php echo $votazioniR["titolo"];?>
+                                </td>
+                                <td>
+                                    <?php echo $votazioniR["scadenza"];?>
+                                </td>
+                                <td>
+                                    <?php echo $votazioniR["percMinima"];?>
+                                </td>
+                                <td>
+                                    <form method="POST" action="votazione.php">
+                                        <input type="hidden" name="choosenQ" value="<?php echo $votazioniR['testoQ']; ?>"/>
+                                        <input class="btn btn-success" type="submit" name="partecipa" value="Partecipa"/>
+                                    </form>
+                                </td>
+                            </tr>
+                            <?php
+                            }
+                      ?>
+                    </tbody>
                 </table>
             </div>
             <?php
@@ -160,51 +164,77 @@
         <input type="text" class="form-control searchInput" onkeyup="myFunction(1)" placeholder="Cerca la votazione che ti interessa">
         <div style="overflow-x:auto;">
             <table class="table-info votTable">
-              <tr class="header">
-                    <th onclick="sortTable(0,1)">Titolo <img src="css/arrows.png"></th>
-                    <th onclick="sortTable(1,1)">Scadenza <img src="css/arrows.png"></th>
-                    <th onclick="sortTable(2,1)">Opzione vincente <img src="css/arrows.png"></th>
-              </tr>
-              <tr>
-              <?php
-              require_once("commonFunctions.php");
-              $credenziali=$_SESSION["credenziali"];
-              $CF=$credenziali["CF"];
-              $dateTime=date('Y-m-d H:i:s', time());
-              $table1=mysqli_query($db, "SELECT *
-                             		     FROM Utente JOIN Amministratore 
-                                       			     ON Utente.codice=Amministratore.codice AND CF='$CF'"); 
-              $row1=mysqli_fetch_array($table1, MYSQLI_ASSOC);
-              $table2;
-              if($row1!==NULL)
-                {
-                $table2=mysqli_query($db, "SELECT *
-                            		       FROM quesito
-                                           WHERE scadenza<'$dateTime'");
-                }
-               else
-                {
-                $table2=mysqli_query($db, "SELECT *
-                            		       FROM quesito JOIN partecipa
-                                                        ON partecipa.CF='$CF' AND  
-                                                           quesito.testoQ=partecipa.testoQ AND 
-                                                           scadenza<'$dateTime'");
-                }
-              if($table2)
-                {
-                $row2=mysqli_fetch_assoc($table2);
-                for(;$row2!=null;$row2=mysqli_fetch_assoc($table2))
+                <thead>
+                  <tr class="header">
+                        <th onclick="sortTable(0,1)">Titolo <img src="css/arrows.png"></th>
+                        <th onclick="sortTable(1,1)">Scadenza <img src="css/arrows.png"></th>
+                        <th onclick="sortTable(2,1)">Opzione vincente <img src="css/arrows.png"></th>
+                  </tr>
+                </thead>
+                <tbody class="searchTable">
+                  <tr>
+                  <?php
+                  require_once("commonFunctions.php");
+                  $credenziali=$_SESSION["credenziali"];
+                  $CF=$credenziali["CF"];
+                  $dateTime=date('Y-m-d H:i:s', time());
+                  $utenteT=mysqli_query($db, "SELECT *
+                             		          FROM Utente JOIN Amministratore 
+                                       			          ON Utente.codice=Amministratore.codice AND 
+                                                          CF='$CF'"); 
+
+                  $utenteR=mysqli_fetch_array($utenteT, MYSQLI_ASSOC);
+                  $votazioniT;
+                  if($utenteR!==NULL)
                     {
-                    echo "<td>".$row2["titolo"]."</td>";
-                    echo "<td>".$row2["scadenza"]."</td>";
-                    echo "<td>"."<i>opzione vincente</i>"."</td>";
-                    ?>
-                    </tr><?php
+                    $votazioniT=mysqli_query($db, "SELECT *
+                            		               FROM quesito
+                                                   WHERE scadenza<'$dateTime'");
                     }
-                }
-               else
-                echo "Non sono disponibili votazioni concluse";
-                 ?>
+                   else
+                    {
+                    $codiceT=mysqli_query($db, "SELECT codice
+                                                FROM utente
+                                                WHERE CF='$CF'");
+
+                    $codiceR=mysqli_fetch_array($codiceT);
+                    $codice=$codiceR[0];
+
+                    $votazioniT=mysqli_query($db, "SELECT *
+                            		               FROM quesito JOIN partecipa
+                                                                ON partecipa.codice='$codice' AND  
+                                                                   quesito.testoQ=partecipa.testoQ AND 
+                                                                   presente=1 AND
+                                                                   scadenza<'$dateTime'");
+                    }
+
+                  
+                  
+                  
+                  if($votazioniT)
+                    {
+                    for($votazioniR=mysqli_fetch_assoc($votazioniT);$votazioniR!=null;$votazioniR=mysqli_fetch_assoc($votazioniT))
+                        {
+                        $key=$votazioniR['testoQ'];
+
+                        $winningOpT=mysqli_query($db, "SELECT testoR
+                                                       FROM risposta
+                                                       WHERE testoQ='$key' AND votiFavorevoli=(SELECT MAX(votiFavorevoli) AS winningOp
+                                                                                               FROM risposta
+                                                                                               WHERE testoQ='$key')");
+
+                        $winningOpR=mysqli_fetch_assoc($winningOpT);
+                        echo "<td>".$votazioniR["titolo"]."</td>";
+                        echo "<td>".$votazioniR["scadenza"]."</td>";
+                        echo "<td>".$winningOpR["testoR"]."</td>";
+                        ?>
+                        </tr><?php
+                        }
+                    }
+                   else
+                    echo "Non sono disponibili votazioni concluse";
+                     ?>
+                </tbody>
             </table>
         </div>
     </div>
@@ -213,7 +243,7 @@
 
     <!--Form che permette di invitare nuovi utenti tramite l'inserimento del loro indirizzo email-->
     <div class="form-popup" id="myForm">
-        <form action="#" method="POST" class="form-container">
+        <form action="paginaUtentePHP.php" method="POST" class="form-container">
             <p>Inserisci l'email dell'utente che vuoi invitare e gli verrá inviata un'email con tutte le istruzioni per poter partecipare</p>
             <div class="form-group">
               <label for="Email">Email:</label>
@@ -229,36 +259,49 @@
       <input type="text" class="form-control searchInput" onkeyup="myFunction(2)" placeholder="Cerca l'utente che ti interessa">
       <?php 
         require_once("commonFunctions.php");
-        $queryUtente=mysqli_query($db, "SELECT nome, cognome, email 
-                                        FROM Utente");
+
+        $utenteT=mysqli_query($db, "SELECT nome, cognome, email, codice
+                                    FROM Utente
+                                    WHERE cancellato=0 && CF!='$CF'");
         
-        if($queryUtente)
+        if($utenteT)
             {?>
             <div style="overflow-x:auto;">
                 <table class="table-info votTable">
-                    <tr class="header">
-                        <th onclick="sortTable(0,2)">Nome<img src="css/arrows.png"></th>
-                        <th onclick="sortTable(1,2)">Cognome<img src="css/arrows.png"></th>
-                        <th onclick="sortTable(2,2)">Email<img src="css/arrows.png"></th>
-                    </tr>
-                    <?php
-                    for($row=mysqli_fetch_array(($queryUtente), MYSQLI_ASSOC);$row!=null;$row=mysqli_fetch_assoc($queryUtente))
-                        {
-                        ?>
-                        <tr>
-                        <td>
-                            <?php echo $row["nome"];?>
-                        </td>
-                        <td>
-                            <?php echo $row["cognome"];?>
-                        </td>
-                        <td>
-                            <?php echo $row["email"];?>
-                        </td>
+                    <thead>
+                        <tr class="header">
+                            <th onclick="sortTable(0,2)">Nome<img src="css/arrows.png"></th>
+                            <th onclick="sortTable(1,2)">Cognome<img src="css/arrows.png"></th>
+                            <th onclick="sortTable(2,2)">Email<img src="css/arrows.png"></th>
+                            <th>Elimina</th>
                         </tr>
+                    </thead>
+                    <tbody class="searchTable">
                         <?php
-                        }
-                        ?>
+                        for($utenteR=mysqli_fetch_array(($utenteT), MYSQLI_ASSOC);$utenteR!=null;$utenteR=mysqli_fetch_assoc($utenteT))
+                            {
+                            ?>
+                            <tr>
+                                <td>
+                                    <?php echo $utenteR["nome"];?>
+                                </td>
+                                <td>
+                                    <?php echo $utenteR["cognome"];?>
+                                </td>
+                                <td>
+                                    <?php echo $utenteR["email"];?>
+                                </td>
+                                <td>
+                                    <form method="POST" action="paginaUtentePHP.php">
+                                        <input type="hidden" name="choosenUser" value="<?php echo $utenteR['codice']; ?>"/>
+                                        <input class="btn btn-danger" type="submit" name="eraseAccount" value="Elimina"/>
+                                    </form>
+                                </td>
+                            </tr>
+                            <?php
+                            }
+                            ?>
+                    </tbody>
                 </table>
             </div>
             <?php
@@ -277,18 +320,22 @@
             $credenziali=$_SESSION["credenziali"];
             $CF=$credenziali["CF"];
             $password=$credenziali["password"];
-            $table=mysqli_query($db, "SELECT nome, cognome
-                            		  FROM Utente
-                           		      WHERE CF='$CF' AND password='$password'"); 
-            $row=mysqli_fetch_array($table, MYSQLI_ASSOC);  
-            $nome=$row['nome'];
-            $cognome=$row['cognome'];
-            echo "<h1 class='col-sm links' style='display:block;'>Benvenuto/a $nome $cognome!";
-            $table2=mysqli_query($db, "SELECT *
+
+            $utenteT=mysqli_query($db, "SELECT nome, cognome
+                            		    FROM Utente
+                           		        WHERE CF='$CF' AND password='$password'"); 
+
+            $utenteR=mysqli_fetch_array($utenteT, MYSQLI_ASSOC);  
+            $nome=$utenteR['nome'];
+            $cognome=$utenteR['cognome'];
+            echo "<h1 class='col-sm links' style='display:block;'>Benvenuto/a $nome $cognome!</h1>";
+
+            $adminT=mysqli_query($db, "SELECT *
                              		   FROM Utente JOIN Amministratore 
                                        			   ON Utente.codice=Amministratore.codice AND CF='$CF'"); 
-            $row2=mysqli_fetch_array($table2, MYSQLI_ASSOC);  
-            if($row2!==NULL)
+
+            $adminR=mysqli_fetch_array($adminT, MYSQLI_ASSOC);  
+            if($adminR!==NULL)
               {
         	  ?><script>hidShow('block', 'none');</script><?php
               }
@@ -299,65 +346,6 @@
             }
            else
             header("Location:accesso.php");
-
-        /*Codice che permette di inviare l'email d'invito*/
-        if(isset($_POST["inviaEmail"]))
-            {
-            $email=$_POST["email"];
-            $characters= '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-            $codice=substr(str_shuffle($characters),0, 10);
-            $table=mysqli_query($db, "INSERT INTO Utente (codice)
-                                      VALUES ('$codice')");
-            $subject='Invito a ProjectWork5AI';
-            $message="Sei stato invitato a partecipare alla piattaforma di votazioni ProjectWork5AI, inserisci il codice $codice nella pagina di registrazione per poter iniziare a votare!
-                      Il link al sito é il seguente:  https://projectwork5ai.altervista.org/votazioni/home.php";
-            $headers='From: ProjectWork5AInoreply @ company . com';
-            mail($email,$subject,$message,$headers);
-            }
-
-        /*codice che permette di inserire i dati relativi ad una votazione nel db*/        
-        if(isset($_POST["votCreation"]))
-            {
-            require_once("commonFunctions.php");
-            $titolo=$_POST["titolo"];
-            $testo=$_POST["testo"];
-            $percMin=$_POST["percenMin"];
-            $nOp=$_POST["nOpzioni"];
-            $expDate=$_POST["expireDate"];
-            $opzioni=$_POST["opzioni"];
-            if(isset($_POST["astensione"]))
-                $ast=true;
-               else
-                $ast=false;
-            if(isset($_POST["chiaro"]))
-                $votVisible=true;
-               else
-                $votVisible=false;
-            $credenziali=$_SESSION["credenziali"];
-            $CF=$credenziali["CF"];
-            $codiceT= mysqli_query($db, "SELECT amministratore.codice
-                                         FROM utente JOIN amministratore
-                                                    ON utente.codice=amministratore.codice
-                                         WHERE CF='$CF'");
-            $codiceR=mysqli_fetch_array($codiceT);
-            $codice=$codiceR[0];
-            mysqli_query($db, "INSERT INTO crea(codice, testoQ)
-                               VALUES('$codice', '$testo')");
-
-            mysqli_query($db, "INSERT INTO quesito(testoQ, titolo, scadenza, percMinima, stato, astensione, votoChiaro)
-                               VALUES('$testo', '$titolo' ,'$expDate', '$percMin', '1', '$ast', '$votVisible')");
-
-            for($i=0, $j=0;$i<strlen($opzioni);$i++)
-                {
-                if($opzioni{$i}==";")
-                    {
-                    $opzione=trim(substr($opzioni,$j, $i-$j));
-                    mysqli_query($db, "INSERT INTO risposta(testoR, testoQ)
-                                       VALUES('$opzione', '$testo')");                         
-                    $j=$i+1;
-                    }
-                }                 
-            }
     ?> 
   </body>
 </html>
