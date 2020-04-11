@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 02, 2020 alle 09:54
+-- Creato il: Apr 02, 2020 alle 16:01
 -- Versione del server: 10.4.11-MariaDB
 -- Versione PHP: 7.4.3
 
@@ -73,19 +73,35 @@ INSERT INTO `crea` (`codice`, `testoQ`) VALUES
 CREATE TABLE `partecipa` (
   `codice` varchar(10) NOT NULL,
   `testoQ` varchar(500) NOT NULL,
-  `presente` tinyint(1) NOT NULL
+  `presente` tinyint(1) NOT NULL,
+  `astenuto` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `partecipa`
 --
 
-INSERT INTO `partecipa` (`codice`, `testoQ`, `presente`) VALUES
-('c1p0LL1n0', 'Testo8', 1),
-('GIp8m3sUnT', 'Testo8', 0),
-('m1p14c3l4', 'Testo8', 0),
-('s31sc3m0', 'Testo8', 1),
-('SoIQmACWtj', 'Testo8', 0);
+INSERT INTO `partecipa` (`codice`, `testoQ`, `presente`, `astenuto`) VALUES
+('c1p0LL1n0', 'Testo8', 0, 0),
+('GIp8m3sUnT', 'Testo8', 0, 0),
+('m1p14c3l4', 'Testo8', 0, 0),
+('s31sc3m0', 'Testo8', 1, 0),
+('SoIQmACWtj', 'Testo8', 0, 0),
+('s31sc3m0', 'testo5', 0, 0),
+('s31sc3m0', 'testo6', 1, 0),
+('s31sc3m0', 'testo7', 0, 0),
+('c1p0LL1n0', 'testo7', 0, 0),
+('c1p0LL1n0', 'testo6', 0, 0),
+('c1p0LL1n0', 'testo5', 0, 0),
+('GIp8m3sUnT', 'testo5', 0, 0),
+('GIp8m3sUnT', 'testo6', 0, 0),
+('GIp8m3sUnT', 'testo7', 0, 0),
+('SoIQmACWtj', 'testo5', 0, 0),
+('SoIQmACWtj', 'testo6', 0, 0),
+('SoIQmACWtj', 'testo7', 0, 0),
+('m1p14c3l4', 'testo5', 0, 0),
+('m1p14c3l4', 'testo6', 0, 0),
+('m1p14c3l4', 'testo7', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -126,7 +142,7 @@ INSERT INTO `quesito` (`testoQ`, `titolo`, `scadenza`, `percMinima`, `stato`, `a
 ('testo5', 'titolo5', '2020-04-05 15:58:00', 5, 1, 1, 0),
 ('testo6', 'titolo6', '2020-04-05 14:00:00', 10, 1, 1, 1),
 ('testo7', 'titolo7', '2020-04-05 22:00:00', 5, 1, 1, 0),
-('Testo8', 'Titolo8', '2020-03-25 23:01:00', 5, 1, 1, 1);
+('Testo8', 'Titolo8', '2020-04-25 23:01:00', 5, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -145,15 +161,15 @@ CREATE TABLE `risposta` (
 --
 
 INSERT INTO `risposta` (`testoR`, `votiFavorevoli`, `testoQ`) VALUES
-('opzione8.2', 1, 'Testo8'),
+('opzione8.2', 4, 'Testo8'),
 ('opzione7.2', 0, 'Testo7'),
-('opzione8.1', 1, 'Testo8'),
-('opzione7.1', 0, 'Testo7'),
+('opzione8.1', 4, 'Testo8'),
+('opzione7.1', 1, 'Testo7'),
 ('opzione6.1', 0, 'Testo6'),
-('opzione6.2', 5, 'Testo6'),
+('opzione6.2', 6, 'Testo6'),
 ('opzione6.3', 0, 'Testo6'),
 ('opzione6.4', 0, 'Testo6'),
-('opzione5.1', 0, 'Testo5'),
+('opzione5.1', 2, 'Testo5'),
 ('opzione5.2', 0, 'Testo5'),
 ('opzione4.1', 0, 'Testo4'),
 ('opzione3.1', 0, 'Testo3'),
@@ -199,17 +215,16 @@ INSERT INTO `utente` (`CF`, `nome`, `cognome`, `password`, `email`, `cancellato`
 CREATE TABLE `vota` (
   `codice` varchar(10) NOT NULL,
   `testoR` varchar(50) NOT NULL,
-  `astenuto` tinyint(1) NOT NULL
+  `testoQ` varchar(500) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dump dei dati per la tabella `vota`
 --
 
-INSERT INTO `vota` (`codice`, `testoR`, `astenuto`) VALUES
-('s31sc3m0', 'opzione8.2', 0),
-('s31sc3m0', 'opzione6.2', 0),
-('c1p0LL1n0', 'opzione8.1', 0);
+INSERT INTO `vota` (`codice`, `testoR`, `testoQ`) VALUES
+('s31sc3m0', 'opzione6.2', 'testo6'),
+('s31sc3m0', 'opzione8.1', 'Testo8');
 
 --
 -- Indici per le tabelle scaricate
@@ -261,7 +276,7 @@ ALTER TABLE `utente`
 -- Indici per le tabelle `vota`
 --
 ALTER TABLE `vota`
-  ADD PRIMARY KEY (`codice`,`testoR`);
+  ADD PRIMARY KEY (`codice`,`testoR`,`testoQ`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -65,13 +65,15 @@
       $password=hash("sha512", $_POST['password']);
       $email=$_POST['email'];
       $codice=$_POST['codice'];
-      $table=mysqli_query($db, "SELECT * FROM Utente WHERE codice='$codice' AND nome IS NULL");
+      $table=mysqli_query($db, "SELECT * 
+                                FROM Utente WHERE codice='$codice' AND 
+                                                  nome IS NULL");
       if($table)
         {
         $row = mysqli_fetch_array($table, MYSQLI_ASSOC);  	
         mysqli_query($db, "UPDATE Utente 
-                                 SET CF='$CF', nome = '$nome', cognome = '$cognome', password = '$password', email = '$email'
-                                 WHERE codice='$codice' ");
+                           SET CF='$CF', nome = '$nome', cognome = '$cognome', password = '$password', email = '$email'
+                           WHERE codice='$codice' ");
         header("Location:accesso.php");
         echo "<script type='text/javascript'>alert('Registrazione avvenuta con successo');</script>";
         }

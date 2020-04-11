@@ -11,8 +11,8 @@ if(isset($_POST["inviaEmail"]))
     $codice=substr(str_shuffle($characters),0, 10);
 
     $utenti=mysqli_query($db, "SELECT *
-                                FROM utente
-                                WHERE email='$email'");
+                               FROM utente
+                               WHERE email='$email'");
             
     $utentiR=mysqli_fetch_array($utenti);
             

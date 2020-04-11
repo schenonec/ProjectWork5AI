@@ -78,7 +78,7 @@
         	  ?><script>hidShow('none', 'block');</script><?php
               }
 
-            $quesitoT=mysqli_query($db, "SELECT testoQ, titolo, astensione
+            $quesitoT=mysqli_query($db, "SELECT titolo, astensione
                                          FROM quesito
                                          WHERE testoQ='$actualQ'"); 
             
@@ -90,17 +90,28 @@
             ?>
             <div class="text-center">
                 <h1 class="col-sm-12"><?php echo $quesitoR['titolo']; ?></h1>
-                <p class="col-sm-12"><?php echo $quesitoR['testoQ']; ?></p>
+                <p class="col-sm-12"><?php echo $actualQ; ?></p>
                 <?php 
-                for($risposteR=mysqli_fetch_assoc($risposteT), $i=1;$risposteR!=NULL;$risposteR=mysqli_fetch_assoc($risposteT), $i++)
+                for($risposteR=mysqli_fetch_assoc($risposteT);$risposteR!=NULL;$risposteR=mysqli_fetch_assoc($risposteT))
                     {
                     $optionValue=$risposteR['testoR'];
                     ?>
                     <form method="POST" action="#">
+                        <input type="hidden" name="actualQ" value="<?php echo $actualQ; ?>"/>
                         <input class='btn btn-success' type='submit' name='votato' value='<?php echo $optionValue; ?>'/>
                     </form>
                     <?php
                     }
+                
+                if($quesitoR['astensione'])
+                   {
+                   ?>
+                   <form method="POST" action="#">
+                        <input type="hidden" name="actualQ" value="<?php echo $actualQ; ?>"/>
+                        <input class='btn btn-success' type='submit' name='astenuto' value='Mi astengo'/>
+                   </form>
+                   <?php
+                   }
                 ?>
 
             </div>
@@ -109,10 +120,9 @@
            else
             header("Location:accesso.php");
 
-        if(isset($_POST["votato"]))
+        if(isset($_POST["votato"]) || isset($_POST["astenuto"]))
             {
-            $testoR=$_POST['votato'];
-
+            $actualQ=$_POST["actualQ"];
             $codiceT=mysqli_query($db, "SELECT codice
                                         FROM utente
                                         WHERE CF='$CF'");
@@ -120,20 +130,26 @@
             $codiceR=mysqli_fetch_array($codiceT);
             $codice=$codiceR[0];
 
-            echo "<br><br><br><br><br><br><br><br>".$codice;
+            $astenuto=0;
 
-            mysqli_query($db, "INSERT INTO vota
-                               VALUES ('$codice', '$testoR', 0)"); 
+            if(isset($_POST["votato"]))
+                {
+                $testoR=$_POST['votato'];
+                mysqli_query($db, "UPDATE risposta
+                                   SET votiFavorevoli=votiFavorevoli+1
+                                   WHERE testoR='$testoR'");   
+
+                mysqli_query($db, "INSERT INTO vota
+                                   VALUES ('$codice', '$testoR', '$actualQ')"); 
+                }
+               else
+                $astenuto=1;
+
+           
             
-            mysqli_query($db, "UPDATE risposta
-                               SET votiFavorevoli=votiFavorevoli+1
-                               WHERE testoR='$testoR'"); 
-
             mysqli_query($db, "UPDATE partecipa
-                               SET presente=true
-                               WHERE codice='$codice'"); 
-
-
+                               SET presente=true, astenuto='$astenuto'
+                               WHERE codice='$codice' AND testoQ='$actualQ'"); 
 
             header("Location:paginaUtente.php");
             }
