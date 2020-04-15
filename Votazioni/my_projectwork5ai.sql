@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 02, 2020 alle 16:01
+-- Creato il: Apr 15, 2020 alle 16:34
 -- Versione del server: 10.4.11-MariaDB
 -- Versione PHP: 7.4.3
 
@@ -82,7 +82,7 @@ CREATE TABLE `partecipa` (
 --
 
 INSERT INTO `partecipa` (`codice`, `testoQ`, `presente`, `astenuto`) VALUES
-('c1p0LL1n0', 'Testo8', 0, 0),
+('c1p0LL1n0', 'Testo8', 1, 0),
 ('GIp8m3sUnT', 'Testo8', 0, 0),
 ('m1p14c3l4', 'Testo8', 0, 0),
 ('s31sc3m0', 'Testo8', 1, 0),
@@ -135,11 +135,11 @@ CREATE TABLE `quesito` (
 --
 
 INSERT INTO `quesito` (`testoQ`, `titolo`, `scadenza`, `percMinima`, `stato`, `astensione`, `votoChiaro`) VALUES
-('testo1', 'titolo1', '2020-03-20 00:58:00', 25, 1, 0, 1),
-('testo2', 'titolo2', '2020-03-26 03:56:00', 15, 1, 1, 1),
-('testo3', 'titolo3', '2020-03-27 21:12:00', 65, 1, 1, 1),
-('testo4', 'titolo4', '2020-04-01 23:59:00', 75, 1, 1, 1),
-('testo5', 'titolo5', '2020-04-05 15:58:00', 5, 1, 1, 0),
+('testo1', 'titolo1', '2020-03-20 00:58:00', 25, 0, 0, 1),
+('testo2', 'titolo2', '2020-03-26 03:56:00', 15, 0, 1, 1),
+('testo3', 'titolo3', '2020-03-27 21:12:00', 65, 0, 1, 1),
+('testo4', 'titolo4', '2020-04-01 23:59:00', 75, 0, 1, 1),
+('testo5', 'titolo5', '2020-03-05 15:58:00', 5, 0, 1, 0),
 ('testo6', 'titolo6', '2020-04-05 14:00:00', 10, 1, 1, 1),
 ('testo7', 'titolo7', '2020-04-05 22:00:00', 5, 1, 1, 0),
 ('Testo8', 'Titolo8', '2020-04-25 23:01:00', 5, 1, 1, 1);
@@ -161,9 +161,9 @@ CREATE TABLE `risposta` (
 --
 
 INSERT INTO `risposta` (`testoR`, `votiFavorevoli`, `testoQ`) VALUES
-('opzione8.2', 4, 'Testo8'),
+('opzione8.2', 5, 'Testo8'),
 ('opzione7.2', 0, 'Testo7'),
-('opzione8.1', 4, 'Testo8'),
+('opzione8.1', 5, 'Testo8'),
 ('opzione7.1', 1, 'Testo7'),
 ('opzione6.1', 0, 'Testo6'),
 ('opzione6.2', 6, 'Testo6'),
@@ -223,6 +223,7 @@ CREATE TABLE `vota` (
 --
 
 INSERT INTO `vota` (`codice`, `testoR`, `testoQ`) VALUES
+('c1p0LL1n0', 'opzione8.2', 'Testo8'),
 ('s31sc3m0', 'opzione6.2', 'testo6'),
 ('s31sc3m0', 'opzione8.1', 'Testo8');
 
@@ -277,6 +278,16 @@ ALTER TABLE `utente`
 --
 ALTER TABLE `vota`
   ADD PRIMARY KEY (`codice`,`testoR`,`testoQ`);
+
+DELIMITER $$
+--
+-- Eventi
+--
+CREATE DEFINER=`root`@`localhost` EVENT `votScaduta` ON SCHEDULE EVERY 1 MINUTE STARTS '2020-04-04 14:29:34' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE quesito
+  SET stato=0
+  WHERE scadenza<CURRENT_TIMESTAMP$$
+
+DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
