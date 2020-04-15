@@ -55,7 +55,7 @@
     <br><br><br>
 
     <!--Form che permette di inserire i dati relativi alla creazione di una votazione-->
-    <div class="links text-center exactCenter" id="createVot">
+    <div class="createVot proposeVot links text-center exactCenter">
         <form method="POST" action="paginaUtentePHP.php">
             <div class="form-group">
               <label for="Titolo">Titolo:</label>
@@ -95,20 +95,25 @@
               <label class="custom-control-label" for="chiaro_">Voto in chiaro</label>
             </div>
             <br>
-            <input class="btn btn-info" type="submit" name="votCreation" value="Crea votazione">
+            <div class="createVot links text-center">
+                <input class="btn btn-info" type="submit" name="votCreation" value="Crea votazione">
+            </div>
+            <div class="proposeVot links text-center">
+                <input class="btn btn-info" type="submit" name="votProposal" value="Proponi votazione">
+            </div>
         </form>  
     </div>
     
     <!--Parte in cui viene creata la tabella con le votazioni disponibili a cui si puó partecipare-->
     <!--WORK IN PROGRESS-->
-    <div class="links" id="availableVot">
+    <div class="availableVot links">
         <input type="text" class="form-control searchInput" placeholder="Search for names..">
         <?php
           require_once("commonFunctions.php");
           $credenziali=$_SESSION["credenziali"];
           $CF=$credenziali["CF"];
           $codice=user_code($db, $CF);
-          $votazioniT=$votazioniT=votQuery($db, $codice, 1, 0);
+          $votazioniT=$votazioniT=votQuery($db, $codice, "in_corso", 0);
 
           if($votazioniT!==NULL)
             {?>
@@ -157,11 +162,9 @@
             ?>
     </div>
 
-    <p class="links" id="proposeVot">Ora propongo una votazione eh!</p>
-
     <!--Parte in cui viene creata la tabella con le votazioni concluse-->
     <!--WORK IN PROGRESS-->
-    <div class="links" id="endedVot">
+    <div class="endedVot links">
         <input type="text" class="form-control searchInput" placeholder="Cerca la votazione che ti interessa">
         <div style="overflow-x:auto;">
             <table class="table-info votTable">
@@ -177,7 +180,7 @@
 
                   <?php
                       require_once("commonFunctions.php");
-                      ended_current_vot($db, 0);
+                      ended_current_vot($db, "scaduta");
                   ?>
 
                 </tbody>
@@ -185,7 +188,7 @@
         </div>
     </div>
 
-    <div class="links" id="currentVot">
+    <div class="currentVot links">
         <input type="text" class="form-control searchInput" placeholder="Cerca la votazione che ti interessa">
         <div style="overflow-x:auto;">
             <table class="table-info votTable">
@@ -201,7 +204,7 @@
 
                      <?php
                          require_once("commonFunctions.php");
-                         ended_current_vot($db, 1);
+                         ended_current_vot($db, "in_corso");
                      ?>
 
                 </tbody>
@@ -224,7 +227,7 @@
     </div>    
     
     <!--Parte in cui viene creata la tabella con gli utenti-->
-    <div class="links" id="showUser">
+    <div class="showUser links">
       <input type="text" class="form-control searchInput" placeholder="Cerca l'utente che ti interessa">
       <?php 
         require_once("commonFunctions.php");
@@ -341,8 +344,8 @@
                             		       FROM quesito JOIN partecipa
                                                         ON partecipa.codice='$codice' AND  
                                                            quesito.testoQ=partecipa.testoQ AND 
-                                                           presente=$present AND
-                                                           stato=$state");
+                                                           presente='$present' AND
+                                                           stato='$state'");
             return $votazioniT;
             }
 
@@ -375,7 +378,7 @@
             if($adminR!==NULL)
                 $votazioniT=mysqli_query($db, "SELECT *
                             		            FROM quesito
-                                                WHERE stato=$state");
+                                                WHERE stato='$state'");
                else
                 {
                 $codice=user_code($db, $CF);

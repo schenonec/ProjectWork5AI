@@ -7,11 +7,13 @@ function hidShow(admin, user) {
         utente[i].style.display=user;
 }
 
-function showLink(class_, id) {
-    var hide=document.getElementsByClassName(class_);
+function showLink(class1, class2) {
+    var hide=document.getElementsByClassName(class1);
     for (var i=0; i<hide.length; i++)
-        hide[i].style.display="none";
-    document.getElementById(id).style.display="block";
+        hide[i].style.display = "none";
+    var show=document.getElementsByClassName(class2);
+    for (var i=0; i<show.length; i++)
+        show[i].style.display = "block";
 }
 
 

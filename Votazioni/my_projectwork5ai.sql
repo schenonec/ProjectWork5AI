@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Apr 15, 2020 alle 16:34
+-- Creato il: Apr 15, 2020 alle 17:28
 -- Versione del server: 10.4.11-MariaDB
 -- Versione PHP: 7.4.3
 
@@ -62,7 +62,8 @@ INSERT INTO `crea` (`codice`, `testoQ`) VALUES
 ('s31sc3m0', 'testo5'),
 ('s31sc3m0', 'testo6'),
 ('s31sc3m0', 'testo7'),
-('s31sc3m0', 'Testo8');
+('s31sc3m0', 'Testo8'),
+('s31sc3m0', 'Testo9');
 
 -- --------------------------------------------------------
 
@@ -101,7 +102,12 @@ INSERT INTO `partecipa` (`codice`, `testoQ`, `presente`, `astenuto`) VALUES
 ('SoIQmACWtj', 'testo7', 0, 0),
 ('m1p14c3l4', 'testo5', 0, 0),
 ('m1p14c3l4', 'testo6', 0, 0),
-('m1p14c3l4', 'testo7', 0, 0);
+('m1p14c3l4', 'testo7', 0, 0),
+('c1p0LL1n0', 'Testo9', 1, 0),
+('GIp8m3sUnT', 'Testo9', 0, 0),
+('m1p14c3l4', 'Testo9', 0, 0),
+('s31sc3m0', 'Testo9', 0, 0),
+('SoIQmACWtj', 'Testo9', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -125,7 +131,7 @@ CREATE TABLE `quesito` (
   `titolo` varchar(50) NOT NULL,
   `scadenza` datetime NOT NULL,
   `percMinima` float NOT NULL,
-  `stato` tinyint(1) NOT NULL,
+  `stato` varchar(120) NOT NULL,
   `astensione` tinyint(1) NOT NULL,
   `votoChiaro` tinyint(1) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -135,14 +141,15 @@ CREATE TABLE `quesito` (
 --
 
 INSERT INTO `quesito` (`testoQ`, `titolo`, `scadenza`, `percMinima`, `stato`, `astensione`, `votoChiaro`) VALUES
-('testo1', 'titolo1', '2020-03-20 00:58:00', 25, 0, 0, 1),
-('testo2', 'titolo2', '2020-03-26 03:56:00', 15, 0, 1, 1),
-('testo3', 'titolo3', '2020-03-27 21:12:00', 65, 0, 1, 1),
-('testo4', 'titolo4', '2020-04-01 23:59:00', 75, 0, 1, 1),
-('testo5', 'titolo5', '2020-03-05 15:58:00', 5, 0, 1, 0),
-('testo6', 'titolo6', '2020-04-05 14:00:00', 10, 1, 1, 1),
-('testo7', 'titolo7', '2020-04-05 22:00:00', 5, 1, 1, 0),
-('Testo8', 'Titolo8', '2020-04-25 23:01:00', 5, 1, 1, 1);
+('Testo1', 'titolo1', '2020-03-20 00:58:00', 25, 'scaduta', 0, 1),
+('Testo2', 'titolo2', '2020-03-26 03:56:00', 15, 'scaduta', 1, 1),
+('Testo3', 'titolo3', '2020-03-27 21:12:00', 65, 'scaduta', 1, 1),
+('Testo4', 'titolo4', '2020-04-01 23:59:00', 75, 'scaduta', 1, 1),
+('Testo5', 'titolo5', '2020-03-05 15:58:00', 5, 'scaduta', 1, 0),
+('Testo6', 'titolo6', '2020-04-05 14:00:00', 10, 'scaduta', 1, 1),
+('Testo7', 'titolo7', '2020-04-05 22:00:00', 5, 'scaduta', 1, 0),
+('Testo8', 'Titolo8', '2020-04-25 23:01:00', 5, 'in_corso', 1, 1),
+('Testo9', 'Titolo9', '2020-04-30 22:00:00', 10, 'in_corso', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -177,7 +184,10 @@ INSERT INTO `risposta` (`testoR`, `votiFavorevoli`, `testoQ`) VALUES
 ('opzione1.2', 10, 'Testo1'),
 ('opzione3.2', 2, 'Testo3'),
 ('opzione3.3', 4, 'Testo3'),
-('opzione2.1', 0, 'Testo2');
+('opzione2.1', 0, 'Testo2'),
+('opzione9.1', 0, 'Testo9'),
+('opzione9.2', 1, 'Testo9'),
+('opzione9.3', 0, 'Testo9');
 
 -- --------------------------------------------------------
 
@@ -224,6 +234,7 @@ CREATE TABLE `vota` (
 
 INSERT INTO `vota` (`codice`, `testoR`, `testoQ`) VALUES
 ('c1p0LL1n0', 'opzione8.2', 'Testo8'),
+('c1p0LL1n0', 'opzione9.2', 'Testo9'),
 ('s31sc3m0', 'opzione6.2', 'testo6'),
 ('s31sc3m0', 'opzione8.1', 'Testo8');
 
@@ -284,7 +295,7 @@ DELIMITER $$
 -- Eventi
 --
 CREATE DEFINER=`root`@`localhost` EVENT `votScaduta` ON SCHEDULE EVERY 1 MINUTE STARTS '2020-04-04 14:29:34' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE quesito
-  SET stato=0
+  SET stato="scaduta"
   WHERE scadenza<CURRENT_TIMESTAMP$$
 
 DELIMITER ;

@@ -42,6 +42,7 @@ if(isset($_POST["votCreation"]))
     $opzioni=$_POST["opzioni"];
     $credenziali=$_SESSION["credenziali"];
     $CF=$credenziali["CF"];
+    $state="in_corso";
 
     if(isset($_POST["astensione"]))
         $ast=true;
@@ -65,7 +66,7 @@ if(isset($_POST["votCreation"]))
                        VALUES('$codice', '$testo')");
 
     mysqli_query($db, "INSERT INTO quesito(testoQ, titolo, scadenza, percMinima, stato, astensione, votoChiaro)
-                        VALUES('$testo', '$titolo' ,'$expDate', '$percMin', '1', '$ast', '$votVisible')");
+                        VALUES('$testo', '$titolo' ,'$expDate', '$percMin', '$state', '$ast', '$votVisible')");
 
 
     $utentiT=mysqli_query($db, "SELECT codice
@@ -85,7 +86,7 @@ if(isset($_POST["votCreation"]))
             $opzione=trim(substr($opzioni,$j, $i-$j));
 
             mysqli_query($db, "INSERT INTO risposta(testoR, testoQ)
-                                VALUES('$opzione', '$testo')");                         
+                               VALUES('$opzione', '$testo')");                         
             $j=$i+1;
             }
         } 
