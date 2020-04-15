@@ -27,6 +27,9 @@
           <li class="nav-item active">
             <a class="nav-link" href="home.php">Home <span class="sr-only">(current)</span></a>
           </li>
+          <li>
+            <a class="nav-link" href="bacheca.php">Bacheca <span class="sr-only">(current)</span></a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Votazioni
